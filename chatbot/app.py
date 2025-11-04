@@ -204,7 +204,7 @@ def chat(msg: Message):
         # save_memory()
         return [
             {"text": "🎧 The Qanun produces a bright, zither-like sound — elegant and full of resonance."},
-            {"audio": "http://127.0.0.1:8000/sound1"},
+            {"audio": "https://aphaeretic-superfantastically-mirian.ngrok-free.dev/sound1"},
         ]
 
     if any(w in text for w in ["image", "picture", "photo"]):
@@ -212,7 +212,7 @@ def chat(msg: Message):
         # save_memory()
         return [
             {"text": "🎨 Here's how a Qanun looks:"},
-            {"image": "http://127.0.0.1:8000/image1"}
+            {"image": "https://aphaeretic-superfantastically-mirian.ngrok-free.dev/image1"}
         ]
 
     # 4. --- More info ---
@@ -231,10 +231,10 @@ def chat(msg: Message):
         elif topic == "sound":
             responses.append({
                 "text": "🎵 Each note on the Qanun can be tuned using small levers, creating intricate scales unique to Arabic music."})
-            responses.append({"audio": "http://127.0.0.1:8000/sound2"})
+            responses.append({"audio": "https://aphaeretic-superfantastically-mirian.ngrok-free.dev/sound2"})
         elif topic == "images":
             responses.append({"text": "📷 Here’s another view of the Qanun:"})
-            responses.append({"image": "http://127.0.0.1:8000/image2"})
+            responses.append({"image": "https://aphaeretic-superfantastically-mirian.ngrok-free.dev/image2"})
         else:
             responses.append({"text": "Let's go back to the menu! 😊 Type 'menu' to choose again."})
         return responses
