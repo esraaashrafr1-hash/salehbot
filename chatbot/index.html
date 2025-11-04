@@ -306,7 +306,7 @@ async function sendMessage(message) {
   const typing = showTyping();
 
   try {
-    const response = await fetch("https://aphaeretic-superfantastically-mirian.ngrok-free.dev/chat", {
+    const response = await fetch("https://salehbot.onrender.com/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sender: senderId, message }),
@@ -347,7 +347,7 @@ userInput.addEventListener("keypress", (e) => {
 window.onload = async () => {
   await new Promise(r => setTimeout(r, 500));
   try {
-    const response = await fetch("https://aphaeretic-superfantastically-mirian.ngrok-free.dev/chat", {
+    const response = await fetch("https://salehbot.onrender.com/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sender: senderId, message: "/greet" }),
