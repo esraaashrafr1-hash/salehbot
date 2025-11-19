@@ -5,6 +5,8 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Dict, List
 import json, atexit, os
+from datetime import datetime
+import pytz
 
 from pyngrok import ngrok
 
@@ -42,12 +44,14 @@ class Message(BaseModel):
 
 def get_greeting() -> str:
     hour = datetime.now().hour
-    if hour < 12:
+    if 6 <= hour < 12:
         return "☀️ Good morning"
-    elif hour < 18:
+    elif 12 <= hour <= 18:
         return "🌞 Good afternoon"
-    else:
+    elif 18 < hour <= 23:
         return "🌙 Good evening"
+    else:
+        return "🌙 You’re still awake?"
 
 # ---- Serve MP3 files directly ----
 @app.get("/sound1")
