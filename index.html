@@ -348,33 +348,34 @@ userInput.addEventListener("keypress", (e) => {
     sendButton.click();
   }
 });
+
 window.onload = async () => {
-  await new Promise(r => setTimeout(r, 500));
-  try {
-    const BASE_URL = "https://super-nessi-esraaaashraf-e00fb6bd.koyeb.app";
+  if (!localStorage.getItem("greetSent")) {
+    localStorage.setItem("greetSent", "true"); // mark as sent
 
+    await new Promise(r => setTimeout(r, 500));
+    try {
+      const response = await fetch(`${BASE_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sender: senderId, message: "/greet" }),
+      });
 
-    const response = await fetch(`${BASE_URL}/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sender: senderId, message: "/greet" }),
-
-
-  });
-
-    const data = await response.json();
-    data.forEach(msg => {
-      if (msg.text) appendMessage("bot", msg.text);
-      if (msg.image)
-        appendMessage("bot", `<img src="${msg.image}" class="themed-image"/>`, true);
-      if (msg.audio)
-        appendMessage("bot", `<audio controls src="${msg.audio}" preload="auto"></audio>`, true);
-    });
-    userInput.focus();
-  } catch (error) {
-    appendMessage("bot", "🚨 Could not connect to FastAPI at https://salehbot.koyeb.app.");
+      const data = await response.json();
+      data.forEach(msg => {
+        if (msg.text) appendMessage("bot", msg.text);
+        if (msg.image)
+          appendMessage("bot", `<img src="${msg.image}" class="themed-image"/>`, true);
+        if (msg.audio)
+          appendMessage("bot", `<audio controls src="${msg.audio}" preload="auto"></audio>`, true);
+      });
+      userInput.focus();
+    } catch (error) {
+      appendMessage("bot", "🚨 Could not connect to FastAPI at https://salehbot.koyeb.app.");
+    }
   }
 };
+
 </script>
 </body>
 </html>
