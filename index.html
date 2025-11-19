@@ -306,11 +306,15 @@ async function sendMessage(message) {
   const typing = showTyping();
 
   try {
-    const response = await fetch("https://salehbot.onrender.com/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sender: senderId, message }),
-    });
+   const BASE_URL = "https://salehbot.koyeb.app";
+   const response = await fetch(`${BASE_URL}/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+   body: JSON.stringify({ sender: senderId, message: "/greet" }),
+
+
+});
+
 
     const data = await response.json();
     typing.remove();
@@ -347,11 +351,16 @@ userInput.addEventListener("keypress", (e) => {
 window.onload = async () => {
   await new Promise(r => setTimeout(r, 500));
   try {
-    const response = await fetch("https://salehbot.onrender.com/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sender: senderId, message: "/greet" }),
-    });
+    const BASE_URL = "https://salehbot.koyeb.app";
+
+    const response = await fetch(`${BASE_URL}/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sender: senderId, message: "/greet" }),
+
+
+  });
+
     const data = await response.json();
     data.forEach(msg => {
       if (msg.text) appendMessage("bot", msg.text);
@@ -362,7 +371,7 @@ window.onload = async () => {
     });
     userInput.focus();
   } catch (error) {
-    appendMessage("bot", "🚨 Could not connect to FastAPI at https://aphaeretic-superfantastically-mirian.ngrok-free.dev.");
+    appendMessage("bot", "🚨 Could not connect to FastAPI at https://salehbot.koyeb.app.");
   }
 };
 </script>
