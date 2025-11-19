@@ -26,17 +26,20 @@ memory = {}
 #         json.dump(memory, f, ensure_ascii=False, indent=2)
 # atexit.register(save_memory)
 
-BASE_URL = "https://salehbot.koyeb.app"  # Replace with your Koyeb URL
+BASE_URL = "https://super-nessi-esraaaashraf-e00fb6bd.koyeb.app"  # Replace with your Koyeb URL
 
 # ---- FastAPI setup ----
 app = FastAPI()
+origins = ["https://salehbot.netlify.app"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 class Message(BaseModel):
     sender: str
@@ -285,5 +288,5 @@ if __name__ == "__main__":
 
     import uvicorn
 
-    # Koyeb uses port 8080
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    # Koyeb uses port 8000
+    uvicorn.run(app, host="0.0.0.0", port=8000)
