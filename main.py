@@ -57,10 +57,6 @@ def get_greeting() -> str:
         return "🌙 You’re still awake?"
 
 # ---- Serve MP3 files directly ----
-@app.get("/")
-def root():
-    return {"message": "🎵 Welcome to SalehBot FastAPI backend! Use /chat to interact."}
-
 @app.get("/sound1")
 def qanun_sound1():
     return FileResponse("QanunSound1.mp3")
@@ -104,7 +100,7 @@ def chat(msg: Message):
         greetings = ["hi", "hello", "hey", "salam", "/greet"]  # Include /greet for frontend init
 
         # If the input is just the bare /greet command (from frontend initialization)
-        if text in ["/greet", "", "init"]:
+        if text == "/greet":
             greeting = get_greeting()
             return [{"text": f"{greeting}! I’m Saleh 🎵, your Qanun teacher.\nMay I know your name? 😊"}]
 
