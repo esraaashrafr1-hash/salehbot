@@ -57,6 +57,10 @@ def get_greeting() -> str:
         return "🌙 You’re still awake?"
 
 # ---- Serve MP3 files directly ----
+@app.get("/")
+def root():
+    return {"message": "🎵 Welcome to SalehBot FastAPI backend! Use /chat to interact."}
+
 @app.get("/sound1")
 def qanun_sound1():
     return FileResponse("QanunSound1.mp3")
