@@ -273,8 +273,13 @@ def chat(msg: Message):
 
 # ---- Run the app ----
 if __name__ == "__main__":
-    from pyngrok import ngrok
-    public_url = ngrok.connect(8000)
-    print("🔥 Public URL:", public_url)
+    # from pyngrok import ngrok
+    # public_url = ngrok.connect(8000)
+    # print("🔥 Public URL:", public_url)
+    # import uvicorn
+    # uvicorn.run(app, host="0.0.0.0", port=8000)
+
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+    # Koyeb uses port 8080
+    uvicorn.run(app, host="0.0.0.0", port=8080)

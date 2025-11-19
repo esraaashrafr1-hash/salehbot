@@ -1,5 +1,5 @@
 fastapi
 uvicorn
-pyngrok
 pydantic
 python-multipart
+pyngrok==7.1.0
