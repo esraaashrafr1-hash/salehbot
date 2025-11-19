@@ -310,7 +310,7 @@ async function sendMessage(message) {
    const response = await fetch(`${BASE_URL}/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-   body: JSON.stringify({ sender: senderId, message: "/greet" }),
+   body: JSON.stringify({ sender: senderId, message: message }),
 
 
 });

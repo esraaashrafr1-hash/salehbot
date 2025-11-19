@@ -104,7 +104,7 @@ def chat(msg: Message):
         greetings = ["hi", "hello", "hey", "salam", "/greet"]  # Include /greet for frontend init
 
         # If the input is just the bare /greet command (from frontend initialization)
-        if text == "/greet":
+        if text in ["/greet", "", "init"]:
             greeting = get_greeting()
             return [{"text": f"{greeting}! I’m Saleh 🎵, your Qanun teacher.\nMay I know your name? 😊"}]
 
