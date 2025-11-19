@@ -2,12 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from datetime import datetime
 from typing import Dict, List
 import json, atexit, os
 from datetime import datetime
 import pytz
-
 from pyngrok import ngrok
 
 #
@@ -27,6 +25,8 @@ memory = {}
 #     with open(MEM_FILE, "w", encoding="utf-8") as f:
 #         json.dump(memory, f, ensure_ascii=False, indent=2)
 # atexit.register(save_memory)
+
+BASE_URL = "https://salehbot.koyeb.app"  # Replace with your Koyeb URL
 
 # ---- FastAPI setup ----
 app = FastAPI()
@@ -208,7 +208,7 @@ def chat(msg: Message):
         # save_memory()
         return [
             {"text": "🎧 The Qanun produces a bright, zither-like sound — elegant and full of resonance."},
-            {"audio": "https://aphaeretic-superfantastically-mirian.ngrok-free.dev/sound1"},
+            {"audio": f"{BASE_URL}/sound1"},
         ]
 
     if any(w in text for w in ["image", "picture", "photo"]):
@@ -216,7 +216,7 @@ def chat(msg: Message):
         # save_memory()
         return [
             {"text": "🎨 Here's how a Qanun looks:"},
-            {"image": "https://aphaeretic-superfantastically-mirian.ngrok-free.dev/image1"}
+            {"image": f"{BASE_URL}/image1"}
         ]
 
     # 4. --- More info ---
@@ -235,10 +235,10 @@ def chat(msg: Message):
         elif topic == "sound":
             responses.append({
                 "text": "🎵 Each note on the Qanun can be tuned using small levers, creating intricate scales unique to Arabic music."})
-            responses.append({"audio": "https://aphaeretic-superfantastically-mirian.ngrok-free.dev/sound2"})
+            responses.append({"audio": f"{BASE_URL}/sound2"})
         elif topic == "images":
             responses.append({"text": "📷 Here’s another view of the Qanun:"})
-            responses.append({"image": "https://aphaeretic-superfantastically-mirian.ngrok-free.dev/image2"})
+            responses.append({"image": f"{BASE_URL}/image2"})
         else:
             responses.append({"text": "Let's go back to the menu! 😊 Type 'menu' to choose again."})
         return responses
