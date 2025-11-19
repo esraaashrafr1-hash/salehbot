@@ -258,7 +258,9 @@ body {
 </div>
 
 <script>
-/* ✅ Original logic — unchanged */
+/* 🔹 GLOBAL BASE_URL */
+const BASE_URL = "https://super-nessi-esraaaashraf-e00fb6bd.koyeb.app";
+
 const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
 const sendButton = document.getElementById("send-btn");
@@ -269,35 +271,32 @@ if (!senderId) {
   localStorage.setItem("senderId", senderId);
 }
 
+/* Append message to chat box */
 function appendMessage(sender, message, isHTML = false) {
   const msgDiv = document.createElement("div");
   msgDiv.classList.add("message", sender);
-
   let content = isHTML ? message : message.replace(/\n/g, '<br>');
-
   if (sender === "bot") {
-    msgDiv.innerHTML = `
-      <img class="avatar" src="Salehbot.png" alt="Bot"/>
-      <div class="bubble">${content}</div>`;
+    msgDiv.innerHTML = `<img class="avatar" src="Salehbot.png" alt="Bot"/><div class="bubble">${content}</div>`;
   } else {
     msgDiv.innerHTML = `<div class="bubble">${content}</div>`;
   }
-
   chatBox.appendChild(msgDiv);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+/* Typing indicator */
 function showTyping() {
   const typingDiv = document.createElement("div");
   typingDiv.classList.add("message", "bot");
-  typingDiv.innerHTML = `
-    <img class="avatar" src="Salehbot.png" alt="Bot"/>
-    <div class="typing-indicator"><span></span><span></span><span></span></div>`;
+  typingDiv.innerHTML = `<img class="avatar" src="Salehbot.png" alt="Bot"/>
+                         <div class="typing-indicator"><span></span><span></span><span></span></div>`;
   chatBox.appendChild(typingDiv);
   chatBox.scrollTop = chatBox.scrollHeight;
   return typingDiv;
 }
 
+/* Send message to backend */
 async function sendMessage(message) {
   sendButton.disabled = true;
   userInput.disabled = true;
@@ -306,24 +305,18 @@ async function sendMessage(message) {
   const typing = showTyping();
 
   try {
-   const BASE_URL = "https://super-nessi-esraaaashraf-e00fb6bd.koyeb.app";
-   const response = await fetch(`${BASE_URL}/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-   body: JSON.stringify({ sender: senderId, message: message }),
-
-
-});
-
+    const response = await fetch(`${BASE_URL}/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sender: senderId, message: message }),
+    });
 
     const data = await response.json();
     typing.remove();
     data.forEach(msg => {
       if (msg.text) appendMessage("bot", msg.text);
-      if (msg.image)
-        appendMessage("bot", `<img src="${msg.image}" class="themed-image"/>`, true);
-      if (msg.audio)
-        appendMessage("bot", `<audio controls src="${msg.audio}" preload="auto"></audio>`, true);
+      if (msg.image) appendMessage("bot", `<img src="${msg.image}" class="themed-image"/>`, true);
+      if (msg.audio) appendMessage("bot", `<audio controls src="${msg.audio}" preload="auto"></audio>`, true);
     });
   } catch (error) {
     typing.remove();
@@ -336,6 +329,7 @@ async function sendMessage(message) {
   }
 }
 
+/* Event listeners */
 sendButton.addEventListener("click", () => {
   const msg = userInput.value.trim();
   if (!msg) return;
@@ -349,11 +343,10 @@ userInput.addEventListener("keypress", (e) => {
   }
 });
 
+/* 🌟 Start conversation on page load */
 window.onload = async () => {
-  if (!localStorage.getItem("greetSent")) {
-    localStorage.setItem("greetSent", "true"); // mark as sent
-
-    await new Promise(r => setTimeout(r, 500));
+  const sendGreeting = async () => {
+    const typing = showTyping();
     try {
       const response = await fetch(`${BASE_URL}/chat`, {
         method: "POST",
@@ -362,20 +355,24 @@ window.onload = async () => {
       });
 
       const data = await response.json();
+      typing.remove();
+
       data.forEach(msg => {
         if (msg.text) appendMessage("bot", msg.text);
-        if (msg.image)
-          appendMessage("bot", `<img src="${msg.image}" class="themed-image"/>`, true);
-        if (msg.audio)
-          appendMessage("bot", `<audio controls src="${msg.audio}" preload="auto"></audio>`, true);
+        if (msg.image) appendMessage("bot", `<img src="${msg.image}" class="themed-image"/>`, true);
+        if (msg.audio) appendMessage("bot", `<audio controls src="${msg.audio}" preload="auto"></audio>`, true);
       });
       userInput.focus();
     } catch (error) {
-      appendMessage("bot", "🚨 Could not connect to FastAPI at https://salehbot.koyeb.app.");
+      typing.remove();
+      appendMessage("bot", "🚨 Could not reach the server. Check your FastAPI connection.");
+      console.error("Greeting Error:", error);
     }
-  }
-};
+  };
 
+  await new Promise(r => setTimeout(r, 500)); // slight delay
+  sendGreeting(); // always send greeting on load
+};
 </script>
 </body>
 </html>
